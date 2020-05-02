@@ -12,29 +12,26 @@ import Card from '../Card';
 
 export default function List({ data, index: ListIndex }) {
   const ref = useRef();
-  const { move } = useContext(BoardContext);
+  const { move, getCoord } = useContext(BoardContext);
 
   const [, dropRef] = useDrop({
     accept: 'CARD',
     hover(item, monitor) {
       const fromlist = item.ListIndex;
       const tolist = ListIndex;
+      //console.log('lista: ', ListIndex);
+      const coord = getCoord();
 
       if (data.cards.length === 0) {
-        //console.log(data.cards);
-
-        //console.log("na lista: ", ListIndex, "| id do card:", item.index, "lista origem: ", item.ListIndex);
-
         move(fromlist, tolist, item.index, 0);
 
         item.ListIndex = tolist;
         item.index = 0;
-        //console.log(item);
-      } else {
-        const endList = ListIndex.length;
-        console.log(endList, tolist);
-      
-        //console.log("tá por baixo, ");
+      } else if (coord.target === undefined || coord.target === null) {//add aqui a funcao de add item ao fim da lista
+        console.log("entrou")
+        //move(coord.fromList1, ListIndex, coord.from1, 1);
+        
+        //console.log("na lista");
       }
 
     }

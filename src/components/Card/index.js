@@ -7,7 +7,7 @@ import { Container, Label } from './styles';
 
 export default function Card({ data, index, ListIndex }) {
   const ref = useRef();
-  const { move } = useContext(BoardContext);
+  const { move, coordnatesUP } = useContext(BoardContext);
 
   const [{ isDragging }, dragRef] = useDrag({
     item: { type: 'CARD', index, ListIndex },
@@ -23,7 +23,7 @@ export default function Card({ data, index, ListIndex }) {
       const targetListIndex = ListIndex;
 
       const draggedIndex = item.index;
-      const targetIndex = index;
+      let targetIndex = index;
 
       if (draggedIndex === targetIndex && draggedListIndex === targetListIndex) {
         return;
@@ -42,19 +42,14 @@ export default function Card({ data, index, ListIndex }) {
       if (draggedIndex > targetIndex && draggedTop > targetCenter) {
         return; // aqui só arrasta se puder ir pra cima, ou seja um item que já está em baixo não vai mais pra baixo ainda
       }
-
-      if (targetIndex === null) {
-        console.log('null')
-      }
-      console.log("item por baixo:", targetIndex);
+      // 
+      coordnatesUP(draggedListIndex, targetListIndex, draggedIndex, targetIndex, targetIndex);
 
       move(draggedListIndex, targetListIndex, draggedIndex, targetIndex);
       item.index = targetIndex;
       item.ListIndex = targetListIndex;
-      console.log("item pego: ", item.index);
-    }
-
-    
+      //targetIndex = undefined;
+    }    
 
   });
 
